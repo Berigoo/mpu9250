@@ -276,7 +276,7 @@ static uint8_t a_mpu9250_read(mpu9250_handle_t *handle, uint8_t reg, uint8_t *bu
 {
     if (handle->iic_spi == MPU9250_INTERFACE_IIC)                                     /* if iic interface */
     {
-        if (handle->iic_read(handle->iic_addr, reg, (uint8_t *)buf, len) != 0)        /* read data */
+        if (handle->iic_read(handle, handle->iic_addr, reg, (uint8_t *)buf, len) != 0)        /* read data */
         {
             return 1;                                                                 /* return error */
         }
@@ -313,7 +313,7 @@ static uint8_t a_mpu9250_write(mpu9250_handle_t *handle, uint8_t reg, uint8_t *b
 {
     if (handle->iic_spi == MPU9250_INTERFACE_IIC)                                      /* if iic interface */
     {
-        if (handle->iic_write(handle->iic_addr, reg, (uint8_t *)buf, len) != 0)        /* write data */
+        if (handle->iic_write(handle, handle->iic_addr, reg, (uint8_t *)buf, len) != 0)        /* write data */
         {
             return 1;                                                                  /* return error */
         }
@@ -349,7 +349,7 @@ static uint8_t a_mpu9250_mag_write(mpu9250_handle_t *handle, uint8_t reg, uint8_
 {
     if (handle->iic_spi == MPU9250_INTERFACE_IIC)                                            /* if iic interface */
     {
-        if (handle->iic_write(AK8963_IIC_ADDRESS << 1, reg, (uint8_t *)data, 1) != 0)        /* write data */
+        if (handle->iic_write(handle, AK8963_IIC_ADDRESS << 1, reg, (uint8_t *)data, 1) != 0)        /* write data */
         {
             return 1;                                                                        /* return error */
         }
@@ -379,7 +379,7 @@ static uint8_t a_mpu9250_mag_read(mpu9250_handle_t *handle, uint8_t reg, uint8_t
 {
     if (handle->iic_spi == MPU9250_INTERFACE_IIC)                                            /* if iic interface */
     {
-        if (handle->iic_read(AK8963_IIC_ADDRESS << 1, reg, (uint8_t *)buf, len) != 0)        /* read data */
+        if (handle->iic_read(handle, AK8963_IIC_ADDRESS << 1, reg, (uint8_t *)buf, len) != 0)        /* read data */
         {
             return 1;                                                                        /* return error */
         }
@@ -420,11 +420,11 @@ static uint8_t a_mpu9250_write_mem(mpu9250_handle_t *handle, uint16_t addr, uint
     
     if (handle->iic_spi == MPU9250_INTERFACE_IIC)                                                 /* if iic interface */
     {
-        if (handle->iic_write(handle->iic_addr, MPU9250_REG_BANK_SEL, (uint8_t *)tmp, 2) != 0)    /* write data */
+        if (handle->iic_write(handle, handle->iic_addr, MPU9250_REG_BANK_SEL, (uint8_t *)tmp, 2) != 0)    /* write data */
         {
             return 1;                                                                             /* return error */
         }
-        if (handle->iic_write(handle->iic_addr, MPU9250_REG_MEM, (uint8_t *)buf, len) != 0)       /* write data */
+        if (handle->iic_write(handle, handle->iic_addr, MPU9250_REG_MEM, (uint8_t *)buf, len) != 0)       /* write data */
         {
             return 1;                                                                             /* return error */
         }
@@ -470,11 +470,11 @@ static uint8_t a_mpu9250_read_mem(mpu9250_handle_t *handle, uint16_t addr, uint8
     
     if (handle->iic_spi == MPU9250_INTERFACE_IIC)                                                 /* if iic interface */
     {
-        if (handle->iic_write(handle->iic_addr, MPU9250_REG_BANK_SEL, (uint8_t *)tmp, 2) != 0)    /* write data */
+        if (handle->iic_write(handle, handle->iic_addr, MPU9250_REG_BANK_SEL, (uint8_t *)tmp, 2) != 0)    /* write data */
         {
             return 1;                                                                             /* return error */
         }
-        if (handle->iic_read(handle->iic_addr, MPU9250_REG_MEM, (uint8_t *)buf, len) != 0)        /* read data */
+        if (handle->iic_read(handle, handle->iic_addr, MPU9250_REG_MEM, (uint8_t *)buf, len) != 0)        /* read data */
         {
             return 1;                                                                             /* return error */
         }
@@ -1049,7 +1049,7 @@ static uint8_t a_mpu9250_deinit(mpu9250_handle_t *handle)
 {
     if (handle->iic_spi == MPU9250_INTERFACE_IIC)        /* if iic interface */
     {
-        if (handle->iic_deinit() != 0)                   /* iic deinit */
+        if (handle->iic_deinit(handle) != 0)                   /* iic deinit */
         {
             return 1;                                    /* return error */
         }
@@ -4081,7 +4081,7 @@ uint8_t mpu9250_init(mpu9250_handle_t *handle)
     
     if (handle->iic_spi == MPU9250_INTERFACE_IIC)                                   /* if iic interface */
     {
-        res = handle->iic_init();                                                   /* iic init */
+        res = handle->iic_init(handle);                                                   /* iic init */
         if (res != 0)                                                               /* check the result */
         {
             handle->debug_print("mpu9250: iic init failed.\n");                     /* iic init failed */

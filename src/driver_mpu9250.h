@@ -501,10 +501,10 @@ typedef enum
 typedef struct mpu9250_handle_s
 {
     uint8_t iic_addr;                                                                   /**< iic device address */
-    uint8_t (*iic_init)(void);                                                          /**< point to an iic_init function address */
-    uint8_t (*iic_deinit)(void);                                                        /**< point to an iic_deinit function address */
-    uint8_t (*iic_read)(uint8_t addr, uint8_t reg, uint8_t *buf, uint16_t len);         /**< point to an iic_read function address */
-    uint8_t (*iic_write)(uint8_t addr, uint8_t reg, uint8_t *buf, uint16_t len);        /**< point to an iic_write function address */
+    uint8_t (*iic_init)(void* ctx);                                                          /**< point to an iic_init function address */
+    uint8_t (*iic_deinit)(void* ctx);                                                        /**< point to an iic_deinit function address */
+    uint8_t (*iic_read)(void* ctx, uint8_t addr, uint8_t reg, uint8_t *buf, uint16_t len);         /**< point to an iic_read function address */
+    uint8_t (*iic_write)(void* ctx, uint8_t addr, uint8_t reg, uint8_t *buf, uint16_t len);        /**< point to an iic_write function address */
     uint8_t (*spi_init)(void);                                                          /**< point to a spi_init function address */
     uint8_t (*spi_deinit)(void);                                                        /**< point to a spi_deinit function address */
     uint8_t (*spi_read)(uint8_t reg, uint8_t *buf, uint16_t len);                       /**< point to a spi_read function address */
